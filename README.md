@@ -291,6 +291,6 @@ GET /api/invitations
 PATCH /api/invitations/{id}
 
 {
-	"status": ACCEPTED / DECLINED / NA
+	"status": null / true / false
 }
 ```
