@@ -1,4 +1,4 @@
-# body double
+# Body double
 
 ## User Stories
 1. Регистрация нового сотрудника
