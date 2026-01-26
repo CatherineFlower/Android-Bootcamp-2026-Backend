@@ -1,0 +1,31 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table employees {
+  id integer [primary key]
+  name varchar
+  username varchar
+  email varchar
+  phone_number varchar
+  password varchar
+}
+
+Table meetings {
+  id integer [primary key]
+  user_id integer [not null]
+  name varchar
+  description varchar
+  start_time datetime
+  end_time datetime
+}
+
+Table invitations {
+  id integer [primary key]
+  user_id integer [not null] // Invited user
+  meeting_id integer [not null]
+  status boolean // null | true | false (maybe enum or varchar)
+}
+
+Ref employee_meetings: meetings.user_id > employees.id
+Ref employee_invitations: invitations.user_id > employees.id
+Ref meeting_invitations: invitations.meeting_id > meetings.id
