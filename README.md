@@ -309,3 +309,6 @@ PATCH /api/invitations/{id}
 	"status": null / true / false
 }
 ```
+
+## Схема БД
+<p align="center"><img src="https://raw.githubusercontent.com/indx0/Android-Bootcamp-2026-Backend/refs/heads/team-bugdroid/docs/db.svg"></img></p>
