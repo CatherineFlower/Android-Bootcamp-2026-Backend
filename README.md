@@ -239,4 +239,5 @@
 # Структура БД
 
 [DBDiagram](https://dbdiagram.io/d/bootcamp-6978d418bd82f5fce2c6b259)
+
 ![](media/db_schema.png)
