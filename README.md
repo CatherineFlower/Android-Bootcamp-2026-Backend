@@ -256,7 +256,7 @@
 
 ### 4.1 Задачи для Backend-разработчика
 * Реализовать схему БД через Liquidbase:
-  * Таблицы: users, meeting, invitations
+  * Таблицы: [users, meetings, invitations](https://dbdiagram.io/d/Android-Bootcamp-2026-zvezda-smerti-team-69790075bd82f5fce2cbd62d)
   * Ограничения: уникальность email
 * Реализовать аутентификацию:
   * `POST /auth/register` - регистрация с валидацией email и пароля
