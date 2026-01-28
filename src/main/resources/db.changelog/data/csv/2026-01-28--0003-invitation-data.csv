@@ -1,0 +1,3 @@
+message;meeting_id;employee_id;status
+Присутствие необязательно;1;2;null
+Требуется ваше присутствие для обсуждения CI/CD;2;2;true
