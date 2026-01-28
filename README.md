@@ -179,3 +179,5 @@
 - [ ] Написать эндпоинт для получения списка непросмотренных приглашений (`GET /users/invitations/{id}/`);
 - [ ] Написать эндпоинт отправки ответа на приглашение (`POST /users/invitations/`);
 - [ ] Написать эндпоинт получения расписания встреч за период (`GET /users/{id}/schedule/day (/week, /month)`)
+
+## База данных [[\*тык\*](https://drawsql.app/teams/klimvill/diagrams/bootcamp-nto-2026)]
