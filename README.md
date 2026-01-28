@@ -27,6 +27,9 @@
 *   Использовать **Liquibase** для создания схемы базы данных и ее предзаполнения.
 
 ---
+## Схема БД(диаграмма): https://dbdiagram.io/d/697a15e0bd82f5fce2e6b045
+
+---
 
 # User Stories
 Прим.: *с полной версией советуем ознакомиться [здесь](https://docs.google.com/document/d/1-UVCVF4v4qxHFP-eEKdkWzcLSQA3_6Ztg6Msztqm7Zg/edit?usp=sharing)*
