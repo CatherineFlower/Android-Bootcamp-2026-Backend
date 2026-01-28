@@ -136,3 +136,7 @@
 
 *    [] Валидация входящих данных: Использование @Valid и javax.validation для проверки email и непустых полей.
 
+
+## Схема бд
+![alt text](image.png)
+[text](https://dbdiagram.io/d/6978e499bd82f5fce2c8ed86)
