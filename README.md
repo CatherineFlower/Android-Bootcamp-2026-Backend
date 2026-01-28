@@ -238,3 +238,54 @@
 
 ### Просмотр расписания
 - Реализовать получение списка расписания встреч пользователя, возврат расписания клиенту, обработку ошибок параметров запроса.
+
+## Проектирование БД (ДЗ_3)
+
+https://dbdiagram.io/d/6978b5bbbd82f5fce2c20c87
+
+Table users {
+id uuid [primary key]
+username varchar(50) [not null]
+email varchar(255) [not null, unique]
+hashed_password varchar(255) [not null, note: "Min length: 60 chars (BCrypt)"]
+avatar_url varchar(2048) [note: "стандарт с большим покрытием"]
+}
+
+Table refresh_tokens {
+id uuid [primary key]
+token text [not null]
+token_version bigint [not null, default: 1]
+expires_at timestamptz [not null, note:"Для UTC time"]
+created_at timestamptz [not null]
+revoked boolean [not null, default: false]
+user_id uuid [not null, ref: > users.id]
+}
+
+Table meetings {
+id uuid [primary key]
+organizer_id uuid [not null, ref: > users.id]
+title varchar [not null]
+body varchar
+location varchar(2048) [note:"название комнаты или ссылка на созвон"]
+start_time timestamptz [not null]
+end_time timestamptz [not null]
+status meeting_status [not null, default: 'scheduled']
+created_at timestamptz
+updated_at timestamptz
+}
+
+Table meeting_participants {
+meeting_id uuid [ref: > meetings.id]
+user_id uuid [ref: > users.id]
+status boolean [default: null, note: "null=pending, true=accepted, false=declined"]
+
+indexes {
+(meeting_id, user_id) [pk]
+}
+}
+
+Enum meeting_status {
+scheduled
+cancelled
+completed
+}
