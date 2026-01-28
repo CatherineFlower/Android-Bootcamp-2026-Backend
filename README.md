@@ -1,3 +1,6 @@
+figma: https://www.figma.com/design/RhDynBggFpMdX3icXJ48H7/Untitled?node-id=0-1&p=f&t=cYEMWsG18LhaOcTW-0
+dbdiagram.io: https://dbdiagram.io/d/6978fa97bd82f5fce2cb5376
+
 # Team Brickly
 
 # Task 2
