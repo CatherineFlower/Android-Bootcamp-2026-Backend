@@ -312,4 +312,4 @@ PATCH /api/invitations/{id}
 ```
 
 ## Схема БД
-<p align="center"><img src="https://raw.githubusercontent.com/indx0/Android-Bootcamp-2026-Backend/refs/heads/team-bugdroid/docs/db.svg"></img></p>
+<p align="center"><img src="https://raw.githubusercontent.com/indx0/Android-Bootcamp-2026-Backend/refs/heads/team-bugdroid/docs/db-v2.svg"></img></p>
