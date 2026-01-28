@@ -1,5 +1,8 @@
 # Body double
 
+## db scheme
+[text](https://dbdiagram.io/d/bootcamp_android-6979f30dbd82f5fce2e279ea)
+
 ## User Stories
 1. Регистрация нового сотрудника
 Как новый сотрудник, я хочу зарегистрироваться в системе, чтобы получить доступ к планированию встреч.
