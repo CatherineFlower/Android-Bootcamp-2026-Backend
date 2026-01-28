@@ -181,3 +181,5 @@
 - [ ] Написать эндпоинт получения расписания встреч за период (`GET /users/{id}/schedule/day (/week, /month)`)
 
 ## База данных [[\*тык\*](https://drawsql.app/teams/klimvill/diagrams/bootcamp-nto-2026)]
+
+![example.png](docs/images/database.png)
