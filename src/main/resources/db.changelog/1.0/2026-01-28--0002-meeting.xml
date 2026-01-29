@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2026-01-28--0002-meeting" author="medveed">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="meetings"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="meetings">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="organizer_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_meeting_organizer"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="title" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1024)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="time_start" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_end" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="meetings" indexName="idx_meeting_organizer">
+            <column name="organizer_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

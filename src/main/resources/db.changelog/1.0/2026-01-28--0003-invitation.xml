@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2026-01-28--0003-invitation" author="medveed">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="invitations"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="invitations">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="meeting_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invitation_meeting"
+                             referencedTableName="meetings"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invitation_user"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="status" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="responded_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="invitations"
+                columnNames="user_id, meeting_id"
+                constraintName="uk_invitation_user_meeting"/>
+
+        <createIndex indexName="idx_invitation_user" tableName="invitations">
+            <column name="user_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_invitation_meeting" tableName="invitations">
+            <column name="meeting_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
