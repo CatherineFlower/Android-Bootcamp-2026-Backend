@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2026-01-29--0003-invite" author="kbadogin">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="invite"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="invite">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="agree" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="meetup_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_invite_meetup" referencedTableName="meetup" referencedColumnNames="id"/>
+            </column>
+
+            <column name="participant_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_invite_person" referencedTableName="person" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
