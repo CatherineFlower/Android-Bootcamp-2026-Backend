@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: booking
+
+  datasource:
+    url: jdbc:h2:mem:database
+    driverClassName: org.h2.Driver
+    username: admin
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+  h2:
+    console:
+      enabled: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db.changelog/db.changelog-master.xml
