@@ -1,0 +1,6 @@
+name;email;password_hash;department_id
+Непретимов Александр;anepr@ya.ru;$2a$10$abc123;2
+Иванов Иван;test@ya.ru;$2a$10$def456;1
+Петров Петр;petrov@ya.ru;$2a$10$ghi789;1
+Сидорова Мария;sidorova@ya.ru;$2a$10$jkl012;2
+Козлов Алексей;kozlov@ya.ru;$2a$10$mno345;3

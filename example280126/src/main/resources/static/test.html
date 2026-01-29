@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        button { margin: 10px; padding: 10px 20px; cursor: pointer; }
+        .result { margin: 20px; padding: 15px; border: 1px solid #ddd; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+<h1>Database Integration Test</h1>
+
+<button onclick="testHealth()">1. Test Health</button>
+<button onclick="testStats()">2. Get Statistics</button>
+<button onclick="testDepartments()">3. Get Departments</button>
+<button onclick="testPersons()">4. Get Persons</button>
+<button onclick="testMeetings()">5. Get Meetings</button>
+<button onclick="testInvitations()">6. Get Invitations</button>
+
+<div id="result" class="result"></div>
+
+<script>
+    const apiBase = 'http://localhost:8080/api/test';
+    const resultDiv = document.getElementById('result');
+
+    function testHealth() {
+        fetch(`${apiBase}/health`)
+            .then(r => r.text())
+            .then(data => {
+                resultDiv.innerHTML = `<p class="success">Health Check: ${data}</p>`;
+            })
+            .catch(err => {
+                resultDiv.innerHTML = `<p class="error">Error: ${err}</p>`;
+            });
+    }
+
+    function testStats() {
+        fetch(`${apiBase}/stats`)
+            .then(r => r.text())
+            .then(data => {
+                resultDiv.innerHTML = `<pre class="success">${data}</pre>`;
+            });
+    }
+
+    function testDepartments() {
+        fetch(`${apiBase}/departments`)
+            .then(r => r.json())
+            .then(data => {
+                const html = data.map(dept =>
+                    `<p>${dept.id}: ${dept.name}</p>`
+                ).join('');
+                resultDiv.innerHTML = `<div class="success">${html}</div>`;
+            });
+    }
+
+    function testPersons() {
+        fetch(`${apiBase}/persons`)
+            .then(r => r.json())
+            .then(data => {
+                const html = data.map(person =>
+                    `<p>${person.name} (${person.email}) - Dept: ${person.department.name}</p>`
+                ).join('');
+                resultDiv.innerHTML = `<div class="success">${html}</div>`;
+            });
+    }
+
+    function testMeetings() {
+        fetch(`${apiBase}/meetings`)
+            .then(r => r.json())
+            .then(data => {
+                const html = data.map(meeting =>
+                    `<p>${meeting.title} (${meeting.meetingDate} ${meeting.startTime}-${meeting.endTime}) - ${meeting.status}</p>`
+                ).join('');
+                resultDiv.innerHTML = `<div class="success">${html}</div>`;
+            });
+    }
+
+    function testInvitations() {
+        fetch(`${apiBase}/invitations`)
+            .then(r => r.json())
+            .then(data => {
+                const html = data.map(inv =>
+                    `<p>Meeting: ${inv.meeting.title}, Person: ${inv.person.name}, Status: ${inv.status}</p>`
+                ).join('');
+                resultDiv.innerHTML = `<div class="success">${html}</div>`;
+            });
+    }
+</script>
+</body>
+</html>
