@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="01-29-2026--0003-meeting_participants-data.xml" author="ssavelev">
+        <loadData tableName="meeting_participants" file="db.changelog/data/csv/01-29-2026--0003-meeting_participants-data.csv"
+                  separator=";"
+                  quotchar='"'
+                  encoding="UTF-8"/>
+    </changeSet>
+
+</databaseChangeLog>
