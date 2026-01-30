@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2026-01-28--0004-invitation" author="anepretimov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="invitation"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="invitation">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="meeting_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_invitation_meeting"
+                             referencedTableName="meeting"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_invitation_person"
+                             referencedTableName="person"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="response_date" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="invitation" indexName="idx_invitation_meeting">
+            <column name="meeting_id"/>
+        </createIndex>
+        <createIndex tableName="invitation" indexName="idx_invitation_person">
+            <column name="person_id"/>
+        </createIndex>
+        <createIndex tableName="invitation" indexName="idx_invitation_status">
+            <column name="status"/>
+        </createIndex>
+
+        <!-- Уникальное ограничение для пары встреча-сотрудник -->
+        <addUniqueConstraint tableName="invitation"
+                             columnNames="meeting_id, person_id"
+                             constraintName="uq_invitation_meeting_person"/>
+    </changeSet>
+
+</databaseChangeLog>
