@@ -1,0 +1,5 @@
+user_id;meeting_id;accepted
+1;1;null
+1;2;true
+3;1;false
+2;3;true
