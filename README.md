@@ -1,6 +1,5 @@
 #Backend-raskrivaetsya-vesnoy
-#БД:
-https://drawdb.vercel.app/editor?shareId=1454df86bbbb533675c0bb925b58222d
+#БД:https://drawdb.vercel.app/editor?shareId=1454df86bbbb533675c0bb925b58222d
 #User Story
 как пользователь я хочу, иметь возможность зарегистрироваться для работы с приложением.
 как пользователь я хочу иметь возможность входить в приложение под своим login и паролем  для получения доступа к своим данным и встречам, защищенных от других лиц.
