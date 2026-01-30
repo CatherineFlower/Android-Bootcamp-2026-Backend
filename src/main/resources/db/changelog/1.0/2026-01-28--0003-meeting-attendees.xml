@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="2026-01-28-0003-meeting-attendees" author="you">
+        <createTable tableName="meeting_attendees">
+            <column name="meeting_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="meeting_attendees"
+                columnNames="meeting_id, user_id"
+                constraintName="pk_meeting_attendees"/>
+
+        <addForeignKeyConstraint
+                baseTableName="meeting_attendees"
+                baseColumnNames="meeting_id"
+                referencedTableName="meetings"
+                referencedColumnNames="id"
+                constraintName="fk_attendees_meeting"/>
+
+        <addForeignKeyConstraint
+                baseTableName="meeting_attendees"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_attendees_user"/>
+    </changeSet>
+
+</databaseChangeLog>
