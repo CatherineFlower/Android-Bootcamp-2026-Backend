@@ -1,0 +1,49 @@
+Table users {
+  id integer [primary key]
+  first_name varchar
+  second_name varchar
+  patronymic varchar
+  position varchar
+  email email [unique]
+  hash_password varchar
+  created_at timestamp
+}
+
+Table meeting {
+  id integer [primary key]
+  start datetime
+  duration interger
+  place varchar
+  theme varchar
+  description varchar
+  creator intreger [not null]
+}
+
+Table invation {
+  id integer [primary key]
+  target integer [not null]
+  meeting integer [not null]
+  status varchar
+  creater_at timestamp
+}
+Table users_meeting {
+  id integer [primary key]
+  member integer [not null]
+  meeting integer [not null]
+  status varchar
+}
+
+Table notifier {
+  id integer [primary key]
+  addressee integer [not null]
+  text varchar
+  meeting integer [not null]
+  create_at timestamp
+}
+Ref: meeting.creator > users.id
+Ref: invation.target > users.id
+Ref: invation.meeting > meeting.id
+Ref: users.id < users_meeting.member
+Ref: meeting.id < users_meeting.meeting
+Ref: users.id < notifier.addressee
+Ref: meeting.id < notifier.meeting
