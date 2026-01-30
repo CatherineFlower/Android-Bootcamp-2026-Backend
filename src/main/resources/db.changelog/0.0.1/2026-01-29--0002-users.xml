@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2026-01-29--0002-users" author="klim">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="second_name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="VARCHAR(30)"/>
+            <column name="department" type="VARCHAR(30)"/>
+            <column name="photo_url" type="VARCHAR(255)" defaultValue="https://catalog-cdn.detmir.st/media/2fe02057f9915e72a378795d32c79ea9.jpeg">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints
+                        foreignKeyName="fk_users_roles"
+                        referencedTableName="roles"
+                        referencedColumnNames="id"
+                        deleteCascade="false"
+                        nullable="false"
+                />
+            </column>
+            <column name="created_at" type="DATETIME" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
