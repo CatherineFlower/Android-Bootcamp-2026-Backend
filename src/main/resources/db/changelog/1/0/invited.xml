@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="2026-01-29--08" author="Dmitry">
+        <createTable tableName="invited">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="Employee_id" type="BIGINT">
+                <constraints nullable="false" unique="false" references="Employee(id)" foreignKeyName="fk_invited_Employee"/>             
+            </column>
+            <column name="invitations_id" type="BIGINT">
+                <constraints unique="false" nullable="false" references="invitations(id)" foreignKeyName="fk_invited_invitations"/>
+            </column>
+            <column name="Approval" type="BOOLEAN">
+                <constraints nullable="true" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
