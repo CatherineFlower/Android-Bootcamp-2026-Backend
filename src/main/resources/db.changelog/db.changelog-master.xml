@@ -8,10 +8,8 @@
     <include file="db.changelog/1.0/2026-02-04--0002-meetings.xml"/>
     <include file="db.changelog/1.0/2026-02-04--0003-invitations.xml"/>
 
-
-    <include file=""/>
-    <include file=""/>
-    <include file=""/>
-
+    <include file="db.changelog/data/2026-02-04--0001-users-data.xml"/>
+    <include file="db.changelog/data/2026-02-04--0002-meetings-data.xml"/>
+    <include file="db.changelog/data/2026-02-04--0003-invitations-data.xml"/>
 
 </databaseChangeLog>
