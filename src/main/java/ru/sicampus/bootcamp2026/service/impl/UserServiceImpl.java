@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO dto) {
-        Optional<Department> optionalDepartment = departmentRepository.findByName(dto.getName());
+        Optional<Department> optionalDepartment = departmentRepository.findByName(dto.getDepartmentName());
         if(optionalDepartment.isEmpty()){
             throw new DepartmentNotFoundException("Department not found!");
         }
