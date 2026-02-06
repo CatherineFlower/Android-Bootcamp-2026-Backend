@@ -21,8 +21,8 @@ public class InvitationController {
         return invitationService.respondToInvitation(id, response);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<InvitationDTO> getUserInvitations(@PathVariable Long userId) {
-        return invitationService.getUserInvitations(userId);
+    @GetMapping("/person/{personId}")
+    public List<InvitationDTO> getPersonInvitations(@PathVariable Long personId) {
+        return invitationService.getPersonInvitations(personId);
     }
 }

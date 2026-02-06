@@ -11,7 +11,6 @@
             </not>
         </preConditions>
 
-        <!-- ENUM тип для PostgreSQL -->
         <sql>
             CREATE TYPE invitation_status AS ENUM ('PENDING', 'ACCEPTED', 'DECLINED');
         </sql>
@@ -27,10 +26,10 @@
                              referencedColumnNames="id"
                 />
             </column>
-            <column name="user_id" type="BIGINT">
+            <column name="person_id" type="BIGINT">
                 <constraints nullable="false"
-                             foreignKeyName="fk_invitations_user"
-                             referencedTableName="users"
+                             foreignKeyName="fk_invitations_person"
+                             referencedTableName="persons"
                              referencedColumnNames="id"
                 />
             </column>

@@ -22,7 +22,7 @@
             <column name="organizer_id" type="BIGINT">
                 <constraints nullable="false"
                              foreignKeyName="fk_meetings_organizer"
-                             referencedTableName="users"
+                             referencedTableName="persons"
                              referencedColumnNames="id"
                 />
             </column>

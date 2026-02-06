@@ -19,8 +19,8 @@ public class Invitation {
     private Meeting meeting;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

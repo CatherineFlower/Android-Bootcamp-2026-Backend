@@ -39,8 +39,8 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
-    public List<InvitationDTO> getUserInvitations(Long userId) {
-        List<Invitation> invitations = invitationRepository.findByUserId(userId);
+    public List<InvitationDTO> getPersonInvitations(Long PersonId) {
+        List<Invitation> invitations = invitationRepository.findByPersonId(PersonId);
         return invitations.stream()
                 .map(InvitationMapper::convertToDto)
                 .collect(Collectors.toList());

@@ -12,5 +12,5 @@ public interface MeetingService {
 
     void deleteMeeting(Long id);
 
-    List<MeetingDTO> getUserMeetings(Long userId);
+    List<MeetingDTO> getPersonMeetings(Long PersonId);
 }

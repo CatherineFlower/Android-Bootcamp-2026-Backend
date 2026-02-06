@@ -7,5 +7,5 @@ import java.util.List;
 public interface InvitationService {
     InvitationDTO respondToInvitation(Long invitationId, String response);
 
-    List<InvitationDTO> getUserInvitations(Long userId);
+    List<InvitationDTO> getPersonInvitations(Long PersonId);
 }

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import ru.sicampus.bootcamp2026.dto.CreateMeetingRequestDTO;
 import ru.sicampus.bootcamp2026.dto.MeetingDTO;
 import ru.sicampus.bootcamp2026.entity.Meeting;
-import ru.sicampus.bootcamp2026.entity.User;
+import ru.sicampus.bootcamp2026.entity.Person;
 import ru.sicampus.bootcamp2026.exception.MeetingNotFoundException;
-import ru.sicampus.bootcamp2026.exception.UserNotFoundException;
+import ru.sicampus.bootcamp2026.exception.PersonNotFoundException;
 import ru.sicampus.bootcamp2026.repository.MeetingRepository;
-import ru.sicampus.bootcamp2026.repository.UserRepository;
+import ru.sicampus.bootcamp2026.repository.PersonRepository;
 import ru.sicampus.bootcamp2026.service.MeetingService;
 import ru.sicampus.bootcamp2026.util.MeetingMapper;
 import ru.sicampus.bootcamp2026.util.TimeValidator;
@@ -23,15 +23,15 @@ import java.util.stream.Collectors;
 public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
-    private final UserRepository userRepository;
+    private final PersonRepository PersonRepository;
 
     @Override
     public MeetingDTO createMeeting(CreateMeetingRequestDTO request) {
         TimeValidator.validateMeetingTime(request.getStartTime(), request.getEndTime());
 
-        User organizer = userRepository
+        Person organizer = PersonRepository
                 .findById(request.getOrganizerId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(PersonNotFoundException::new);
 
         Meeting meeting = new Meeting();
         meeting.setTitle(request.getTitle());
@@ -63,12 +63,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List<MeetingDTO> getUserMeetings(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found");
+    public List<MeetingDTO> getPersonMeetings(Long PersonId) {
+        if (!PersonRepository.existsById(PersonId)) {
+            throw new RuntimeException("Person not found");
         }
 
-        List<Meeting> meetings = meetingRepository.findByOrganizerId(userId);
+        List<Meeting> meetings = meetingRepository.findByOrganizerId(PersonId);
 
         return meetings.stream()
                 .map(MeetingMapper::convertToDto)

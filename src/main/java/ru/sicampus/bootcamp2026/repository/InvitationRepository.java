@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
-    List<Invitation> findByUserId(Long userId);
+    List<Invitation> findByPersonId(Long PersonId);
     List<Invitation> findByMeetingId(Long meetingId);
 }

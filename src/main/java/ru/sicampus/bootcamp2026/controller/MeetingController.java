@@ -30,8 +30,8 @@ public class MeetingController {
         meetingService.deleteMeeting(id);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<MeetingDTO> getUserMeetings(@PathVariable Long userId) {
-        return meetingService.getUserMeetings(userId);
+    @GetMapping("/Person/{PersonId}")
+    public List<MeetingDTO> getPersonMeetings(@PathVariable Long personId) {
+        return meetingService.getPersonMeetings(personId);
     }
 }
