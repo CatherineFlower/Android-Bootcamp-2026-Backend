@@ -30,7 +30,7 @@ public class MeetingController {
         meetingService.deleteMeeting(id);
     }
 
-    @GetMapping("/Person/{PersonId}")
+    @GetMapping("/person/{personId}")
     public List<MeetingDTO> getPersonMeetings(@PathVariable Long personId) {
         return meetingService.getPersonMeetings(personId);
     }

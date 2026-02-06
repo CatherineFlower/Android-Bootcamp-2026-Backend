@@ -21,7 +21,7 @@ public class Meeting {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
-    private Person organizerId;
+    private Person organizer;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;

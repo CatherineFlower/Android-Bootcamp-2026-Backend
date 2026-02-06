@@ -36,7 +36,7 @@ public class MeetingServiceImpl implements MeetingService {
         Meeting meeting = new Meeting();
         meeting.setTitle(request.getTitle());
         meeting.setDescription(request.getDescription());
-        meeting.setOrganizerId(organizer);
+        meeting.setOrganizer(organizer);
         meeting.setStartTime(request.getStartTime());
         meeting.setEndTime(request.getEndTime());
         meeting.setCreatedAt(LocalDateTime.now());

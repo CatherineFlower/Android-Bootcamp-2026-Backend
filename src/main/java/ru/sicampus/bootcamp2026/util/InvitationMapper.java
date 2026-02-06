@@ -13,7 +13,7 @@ public class InvitationMapper {
         InvitationDTO dto = new InvitationDTO();
         dto.setId(invitation.getId());
         dto.setMeetingId(invitation.getMeeting().getId());
-        dto.setPersonId(invitation.getPerson().getId());
+        dto.setPersonName(invitation.getPerson().getName());
         dto.setStatus(invitation.getStatus().name());
         dto.setRespondedAt(invitation.getRespondedAt());
         dto.setCreatedAt(invitation.getCreatedAt());

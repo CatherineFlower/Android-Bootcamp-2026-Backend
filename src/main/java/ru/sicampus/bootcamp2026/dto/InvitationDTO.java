@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class InvitationDTO {
     private Long id;
     private Long meetingId;
-    private Long personId;
+    private String personName;
     private String status;
     private LocalDateTime respondedAt;
     private LocalDateTime createdAt;

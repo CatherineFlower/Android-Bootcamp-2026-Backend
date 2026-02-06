@@ -11,7 +11,7 @@ public class MeetingMapper {
         dto.setId(meeting.getId());
         dto.setTitle(meeting.getTitle());
         dto.setDescription(meeting.getDescription());
-        dto.setOrganizer(meeting.getOrganizer().getId());
+        dto.setOrganizerId(meeting.getOrganizer().getId());
         dto.setStartTime(meeting.getStartTime());
         dto.setEndTime(meeting.getEndTime());
         dto.setCreatedAt(meeting.getCreatedAt());
