@@ -10,6 +10,7 @@ public class PersonMapper {
         PersonDTO PersonDTO = new PersonDTO();
         PersonDTO.setId(Person.getId());
         PersonDTO.setName(Person.getName());
+        PersonDTO.setUsername(Person.getUsername());
         PersonDTO.setEmail(Person.getEmail());
         PersonDTO.setPhotoUrl(Person.getPhotoUrl());
         PersonDTO.setDepartmentName(Person.getDepartment().getName());

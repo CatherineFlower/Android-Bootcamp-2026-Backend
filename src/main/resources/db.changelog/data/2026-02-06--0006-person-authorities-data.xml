@@ -5,8 +5,8 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
 
-    <changeSet id="2026-02-06--0006-person-authority-data" author="mepifanov">
-        <loadData tableName="person_authority" file="db.changelog/data/csv/2026-02-06--0006-person-authority-data.csv"
+    <changeSet id="2026-02-06--0006-person-authorities-data" author="mepifanov">
+        <loadData tableName="person_authorities" file="db.changelog/data/csv/2026-02-06--0006-person-authorities-data.csv"
                   separator=";"
                   quotchar='"'
                   encoding="UTF-8"/>

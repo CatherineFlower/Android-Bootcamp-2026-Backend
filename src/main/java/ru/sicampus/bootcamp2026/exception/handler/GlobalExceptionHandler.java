@@ -32,4 +32,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidMeetingTimeException(InvalidMeetingTimeException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PersonAlreadyExistsException.class)
+    public ResponseEntity<String> handlePersonAlreadyExistsException(PersonAlreadyExistsException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PersonAuthorityNotFoundException.class)
+    public ResponseEntity<String> handlePersonAuthorityNotFoundException(PersonAuthorityNotFoundException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
