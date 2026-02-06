@@ -6,5 +6,4 @@ import ru.sicampus.bootcamp2026.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
 }

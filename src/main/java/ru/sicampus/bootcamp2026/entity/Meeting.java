@@ -21,7 +21,7 @@ public class Meeting {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
-    private User organizer;
+    private User organizerId;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -30,5 +30,5 @@ public class Meeting {
     private LocalDateTime endTime;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

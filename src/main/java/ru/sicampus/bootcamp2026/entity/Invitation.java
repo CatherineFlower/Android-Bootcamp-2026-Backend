@@ -24,11 +24,11 @@ public class Invitation {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private InvitationStatus status;
+    private InvitationStatus status = InvitationStatus.PENDING;
 
     @Column(name = "responded_at")
     private LocalDateTime respondedAt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

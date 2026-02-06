@@ -34,14 +34,14 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(Long id) {
         return userRepository.findById(id)
                 .map(UserMapper::convertToDto)
-                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     public UserDTO createUser(UserDTO dto) {
         Optional<Department> optionalDepartment = departmentRepository.findByName(dto.getDepartmentName());
         if(optionalDepartment.isEmpty()){
-            throw new DepartmentNotFoundException("Department not found!");
+            throw new DepartmentNotFoundException();
         }
 
         User user = new User();
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO dto) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+                .orElseThrow(UserNotFoundException::new);
 
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
