@@ -1,6 +1,5 @@
 package ru.sicampus.bootcamp2026.repository;
 
-import org.h2.mvstore.Page;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
