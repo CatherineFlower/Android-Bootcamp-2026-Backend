@@ -36,29 +36,6 @@ public class PersonServiceImpl implements PersonService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-    @Override
-    public Person convertRegisterToEntity(
-            PersonRegisterDTO dto,
-            Authority authority,
-            Department department,
-            String password
-    ) {
-        Person person = new Person();
-        person.setName(dto.getName());
-        person.setUsername(dto.getUsername());
-        person.setEmail(dto.getEmail());
-        person.setDepartment(department);
-        person.setPassword(password);
-        person.setAuthorities(Set.of(authority));
-        return person;
-    }
-
-    @Override
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
-    }
-
     @Override
     public List<PersonDTO> getAllPersons() {
         return personRepository.findAll().stream().map(PersonMapper::convertToDto).collect(Collectors.toList());
@@ -70,40 +47,6 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO createPerson(PersonRegisterDTO dto) {
-
-        UsernameChecker.checkUsername(personRepository, dto.getUsername());
-        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
-        Authority authority = AuthorityChecker.checkAuthority(authorityRepository, "ROLE_USER");
-        String encodedPassword = encodePassword(dto.getPassword());
-
-        Person person = convertRegisterToEntity(dto, authority, department, encodedPassword);
-
-        return PersonMapper.convertToDto(personRepository.save(person));
-    }
-
-    @Override
-    public PersonDTO updatePerson(Long id, PersonDTO dto) {
-        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
-
-        UsernameChecker.checkUsername(personRepository, dto.getUsername());
-        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
-
-        person.setName(dto.getName());
-        person.setUsername(dto.getUsername());
-        person.setEmail(dto.getEmail());
-        person.setPhotoUrl(dto.getPhotoUrl());
-        person.setDepartment(department);
-
-        return PersonMapper.convertToDto(personRepository.save(person));
-    }
-
-    @Override
-    public void deletePerson(Long id) {
-        personRepository.deleteById(id);
-    }
-
-    @Override
     public PersonDTO getPersonByUsername(String username) {
         Optional<Person> optionalPerson = personRepository.findByUsername(username);
 
@@ -112,6 +55,33 @@ public class PersonServiceImpl implements PersonService {
         }
 
         return PersonMapper.convertToDto(optionalPerson.get());
+    }
+
+    @Override
+    public PersonDTO createPerson(PersonRegisterDTO dto) {
+        UsernameChecker.checkUsername(personRepository, dto.getUsername());
+        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
+        Authority authority = AuthorityChecker.checkAuthority(authorityRepository, "ROLE_USER");
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+
+        Person person = PersonMapper.convertToEntity(dto, authority, department, encodedPassword);
+
+        return PersonMapper.convertToDto(personRepository.save(person));
+    }
+
+    @Override
+    public PersonDTO updatePerson(Long id, PersonDTO dto) {
+        UsernameChecker.checkUsername(personRepository, dto.getUsername());
+        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
+
+        Person person = PersonMapper.convertToEntity(id,dto, department, personRepository);
+
+        return PersonMapper.convertToDto(personRepository.save(person));
+    }
+
+    @Override
+    public void deletePerson(Long id) {
+        personRepository.deleteById(id);
     }
 
     @Override

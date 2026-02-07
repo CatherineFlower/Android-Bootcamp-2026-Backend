@@ -7,19 +7,11 @@ import ru.sicampus.bootcamp2026.dto.PersonRegisterDTO;
 import ru.sicampus.bootcamp2026.entity.Authority;
 import ru.sicampus.bootcamp2026.entity.Department;
 import ru.sicampus.bootcamp2026.entity.Person;
+import ru.sicampus.bootcamp2026.repository.PersonRepository;
 
 import java.util.List;
 
 public interface PersonService {
-    Person convertRegisterToEntity(
-            PersonRegisterDTO dto,
-            Authority authority,
-            Department department,
-            String password
-    );
-
-    String encodePassword(String password);
-
     List<PersonDTO> getAllPersons();
 
     PersonDTO getPersonById(Long id);
