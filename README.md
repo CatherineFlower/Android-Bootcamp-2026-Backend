@@ -154,3 +154,74 @@
 
 Визуальная схема доступна по ссылке:  
 **https://dbdiagram.io/d/meeting_planner-69834e18bd82f5fce2a21845**
+
+## 6. Архитектура проекта
+
+### Backend-часть
+
+- **Java 17** + **Spring Boot 3.5.5**
+- **PostgreSQL** (продакшен) / **H2** (разработка/тесты)
+- **Spring Data JPA** + **Hibernate**
+- **Spring Security** + **JWT** аутентификация
+- **Liquibase** для миграций БД
+- **Docker** контейнеризация
+
+## 7. API Endpoints
+
+### Аутентификация
+
+- `POST /api/auth/register` - регистрация пользователя
+- `POST /api/auth/login` - авторизация (получение JWT)
+
+### Пользователи
+
+- `GET /api/persons` - список пользователей (с пагинацией)
+- `GET /api/persons/{id}` - информация о пользователе
+
+### Встречи
+
+- `POST /api/meetings` - создание встречи
+- `GET /api/meetings/{id}` - информация о встрече
+- `DELETE /api/meetings/{id}` - удаление встречи
+- `GET /api/persons/{personId}/meetings` - встречи пользователя
+
+### Приглашения
+
+- `POST /api/invitations/{id}/respond` - ответ на приглашение
+- `GET /api/persons/{personId}/invitations` - приглашения пользователя
+
+## 8. Запуск проекта
+
+### Быстрый запуск (Docker)
+
+```bash
+# Собрать и запустить все контейнеры
+docker-compose up -d --build
+
+# Приложение будет доступно по адресу:
+# http://localhost:8080
+# Swagger UI: http://localhost:8080/swagger-ui.html
+```
+
+## 9. Тестирование
+
+Проект покрыт unit-тестами для критической бизнес-логики:
+
+- Регистрация пользователя (успешная/дублирование email)
+- Создание встречи (валидация времени, проверка организатора)
+- Ответ на приглашения
+
+Используемые технологии тестирования:
+
+- JUnit 5
+- Mockito
+- Spring Boot Test
+- H2 in-memory база
+
+## 10. Документация API
+
+Документация доступна через **Swagger UI**:
+
+```
+http://localhost:8080/swagger-ui.html
+```
