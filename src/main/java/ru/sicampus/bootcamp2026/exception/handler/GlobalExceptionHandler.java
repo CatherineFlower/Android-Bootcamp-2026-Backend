@@ -42,4 +42,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handlePersonAuthorityNotFoundException(PersonAuthorityNotFoundException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(AuthorityNotFoundException.class)
+    public ResponseEntity<String> handleAuthorityNotFoundException(AuthorityNotFoundException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

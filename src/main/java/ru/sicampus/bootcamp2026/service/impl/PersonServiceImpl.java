@@ -18,6 +18,9 @@ import ru.sicampus.bootcamp2026.repository.DepartmentRepository;
 import ru.sicampus.bootcamp2026.repository.PersonRepository;
 import ru.sicampus.bootcamp2026.service.PersonService;
 import ru.sicampus.bootcamp2026.util.PersonMapper;
+import ru.sicampus.bootcamp2026.util.checkers.AuthorityChecker;
+import ru.sicampus.bootcamp2026.util.checkers.DepartmentChecker;
+import ru.sicampus.bootcamp2026.util.checkers.UsernameChecker;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,63 +36,64 @@ public class PersonServiceImpl implements PersonService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public List<PersonDTO> getAllPersons() {
-        return personRepository.findAll().stream()
-                .map(PersonMapper::convertToDto)
-                .collect(Collectors.toList());
-    }
 
     @Override
-    public PersonDTO getPersonById(Long id) {
-        return personRepository.findById(id)
-                .map(PersonMapper::convertToDto)
-                .orElseThrow(PersonNotFoundException::new);
-    }
-
-    @Override
-    public PersonDTO createPerson(PersonRegisterDTO dto) {
-        if (personRepository.findByUsername(dto.getUsername()).isPresent()) {
-            throw new PersonAlreadyExistsException();
-        }
-
-        Optional<Department> optionalDepartment = departmentRepository.findByName(dto.getDepartmentName());
-        if (optionalDepartment.isEmpty()) {
-            throw new DepartmentNotFoundException();
-        }
-
-        Optional<Authority> roleUser = authorityRepository.findByAuthority("ROLE_USER");
-        if (roleUser.isEmpty()) {
-            throw new PersonNotFoundException();
-        }
-
+    public Person convertRegisterToEntity(
+            PersonRegisterDTO dto,
+            Authority authority,
+            Department department,
+            String password
+    ) {
         Person person = new Person();
         person.setName(dto.getName());
         person.setUsername(dto.getUsername());
         person.setEmail(dto.getEmail());
-        person.setDepartment(optionalDepartment.get());
-        person.setPassword(passwordEncoder.encode(dto.getPassword()));
-        person.setAuthorities(Set.of(roleUser.get()));
+        person.setDepartment(department);
+        person.setPassword(password);
+        person.setAuthorities(Set.of(authority));
+        return person;
+    }
+
+    @Override
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    @Override
+    public List<PersonDTO> getAllPersons() {
+        return personRepository.findAll().stream().map(PersonMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public PersonDTO getPersonById(Long id) {
+        return personRepository.findById(id).map(PersonMapper::convertToDto).orElseThrow(PersonNotFoundException::new);
+    }
+
+    @Override
+    public PersonDTO createPerson(PersonRegisterDTO dto) {
+
+        UsernameChecker.checkUsername(personRepository, dto.getUsername());
+        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
+        Authority authority = AuthorityChecker.checkAuthority(authorityRepository, "ROLE_USER");
+        String encodedPassword = encodePassword(dto.getPassword());
+
+        Person person = convertRegisterToEntity(dto, authority, department, encodedPassword);
 
         return PersonMapper.convertToDto(personRepository.save(person));
     }
 
     @Override
     public PersonDTO updatePerson(Long id, PersonDTO dto) {
-        Person person = personRepository.findById(id)
-                .orElseThrow(PersonNotFoundException::new);
+        Person person = personRepository.findById(id).orElseThrow(PersonNotFoundException::new);
 
-        if (personRepository.findByUsername(dto.getUsername()).isPresent()) {
-            throw new PersonAlreadyExistsException("Username already exists!");
-        }
+        UsernameChecker.checkUsername(personRepository, dto.getUsername());
+        Department department = DepartmentChecker.checkDepartment(departmentRepository, dto.getDepartmentName());
 
         person.setName(dto.getName());
         person.setUsername(dto.getUsername());
         person.setEmail(dto.getEmail());
         person.setPhotoUrl(dto.getPhotoUrl());
-
-        Optional<Department> optionalDepartment = departmentRepository.findByName(dto.getDepartmentName());
-        optionalDepartment.ifPresent(person::setDepartment);
+        person.setDepartment(department);
 
         return PersonMapper.convertToDto(personRepository.save(person));
     }

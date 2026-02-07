@@ -1,5 +1,6 @@
 package ru.sicampus.bootcamp2026.service.impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,126 +12,110 @@ import ru.sicampus.bootcamp2026.dto.PersonRegisterDTO;
 import ru.sicampus.bootcamp2026.entity.Authority;
 import ru.sicampus.bootcamp2026.entity.Department;
 import ru.sicampus.bootcamp2026.entity.Person;
-import ru.sicampus.bootcamp2026.exception.DepartmentNotFoundException;
 import ru.sicampus.bootcamp2026.exception.PersonAlreadyExistsException;
 import ru.sicampus.bootcamp2026.repository.AuthorityRepository;
 import ru.sicampus.bootcamp2026.repository.DepartmentRepository;
 import ru.sicampus.bootcamp2026.repository.PersonRepository;
-import ru.sicampus.bootcamp2026.util.PersonMapper;
 
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonServiceImplTest {
+class PersonServiceImplTest {
 
     @Mock
-    private PersonRepository personRepository;
-
+    PersonRepository personRepo;
     @Mock
-    private DepartmentRepository departmentRepository;
-
+    DepartmentRepository departmentRepo;
     @Mock
-    private PasswordEncoder passwordEncoder;
-
+    AuthorityRepository authorityRepo;
     @Mock
-    private AuthorityRepository authorityRepository;
-
-    @Mock
-    private PersonMapper personMapper;
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private PersonServiceImpl personService;
+    PersonServiceImpl service;
+
+    private Department itDepartment;
+    private Authority userRole;
+    private PersonRegisterDTO testRegisterDto;
+
+    @BeforeEach
+    void setUp() {
+        itDepartment = new Department();
+        itDepartment.setId(1L);
+        itDepartment.setName("IT");
+
+        userRole = new Authority();
+        userRole.setId(1L);
+        userRole.setAuthority("ROLE_USER");
+
+        testRegisterDto = new PersonRegisterDTO();
+        testRegisterDto.setUsername("testuser");
+        testRegisterDto.setEmail("test@mail.com");
+        testRegisterDto.setName("Test User");
+        testRegisterDto.setPassword("password123");
+        testRegisterDto.setDepartmentName("IT");
+    }
 
     @Test
-    void testRegisterNewUser() {
-        // Given
-        PersonRegisterDTO dto = new PersonRegisterDTO();
-        dto.setUsername("testUser");
-        dto.setEmail("test@mail.com");
-        dto.setName("Test User");
-        dto.setPassword("123");
-        dto.setDepartmentName("IT");
+    void createPerson_success() {
+        when(personRepo.findByUsername("testuser")).thenReturn(Optional.empty());
+        when(departmentRepo.findByName("IT")).thenReturn(Optional.of(itDepartment));
+        when(authorityRepo.findByAuthority("ROLE_USER")).thenReturn(Optional.of(userRole));
+        when(passwordEncoder.encode("password123")).thenReturn("encodedPassword");
 
-        Department department = new Department();
-        department.setName("IT");
+        // Мок для сохранения
+        Person savedPerson = new Person();
+        savedPerson.setId(1L);
+        savedPerson.setUsername("testuser");
+        savedPerson.setEmail("test@mail.com");
+        savedPerson.setName("Test User");
+        savedPerson.setDepartment(itDepartment);
+        savedPerson.setAuthorities(Set.of(userRole));
 
-        Person person = new Person();
-        person.setUsername("testUser");
-        person.setEmail("test@mail.com");
-        person.setName("Test User");
-        person.setDepartment(department);
+        when(personRepo.save(any(Person.class))).thenReturn(savedPerson);
 
-        Authority roleUser = new Authority();
-        roleUser.setAuthority("ROLE_USER");
+        // When: вызываем тестируемый метод
+        PersonDTO result = service.createPerson(testRegisterDto);
 
-
-        // Mocks
-        when(personRepository.findByUsername("testUser"))
-                .thenReturn(Optional.empty());
-
-        when(departmentRepository.findByName("IT"))
-                .thenReturn(Optional.of(department));
-
-        when(authorityRepository.findByAuthority("ROLE_USER"))
-                .thenReturn(Optional.of(roleUser));
-
-        when(passwordEncoder.encode("123"))
-                .thenReturn("encodedPassword");
-
-        when(personRepository.save(any(Person.class)))
-                .thenReturn(person);
-
-
-        // When
-        PersonDTO result = personService.createPerson(dto);
-
-        // Then
+        // Then: проверяем
         assertNotNull(result);
+        assertEquals("testuser", result.getUsername());
         assertEquals("test@mail.com", result.getEmail());
         assertEquals("IT", result.getDepartmentName());
     }
 
     @Test
-    void testRegisterExistingUsername(){
-        // Given
-        PersonRegisterDTO dto = new PersonRegisterDTO();
-        dto.setUsername("existingUser");
-        dto.setPassword("123");
-        dto.setDepartmentName("IT");
-
+    void createPerson_usernameAlreadyExists_throwsException() {
+        // Given: пользователь с таким username уже есть
         Person existingPerson = new Person();
+        existingPerson.setUsername("testuser");
 
-        // Mock
-        when(personRepository.findByUsername("existingUser"))
-                .thenReturn(Optional.of(existingPerson));
+        when(personRepo.findByUsername("testuser")).thenReturn(Optional.of(existingPerson));
 
-        // When & Then
+        // When & Then: должен выбросить исключение
         assertThrows(PersonAlreadyExistsException.class,
-                () -> personService.createPerson(dto));
+                () -> service.createPerson(testRegisterDto));
 
-        verify(personRepository, never()).save(any());
+        // И не должен вызывать save()
+        verify(personRepo, never()).save(any());
     }
 
     @Test
-    void testRegisterNonExistentDepartment(){
-        // Given
-        PersonRegisterDTO dto = new PersonRegisterDTO();
-        dto.setUsername("newUser");
-        dto.setDepartmentName("NonExistentDept");
-
-        // Mock
-        when(personRepository.findByUsername("newUser"))
-                .thenReturn(Optional.empty());
-
-        when(departmentRepository.findByName("NonExistentDept"))
-                .thenReturn(Optional.empty());
+    void createPerson_departmentNotFound_throwsException() {
+        // Given: username свободен, но департамента нет
+        when(personRepo.findByUsername("testuser")).thenReturn(Optional.empty());
+        when(departmentRepo.findByName("IT")).thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(DepartmentNotFoundException.class,
-                () -> personService.createPerson(dto));
+                () -> service.createPerson(testRegisterDto));
+
+        verify(personRepo, never()).save(any());
     }
 }
