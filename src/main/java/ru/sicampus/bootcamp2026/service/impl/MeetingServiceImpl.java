@@ -15,6 +15,7 @@ import ru.sicampus.bootcamp2026.util.TimeValidator;
 import ru.sicampus.bootcamp2026.util.checkers.IdChecker;
 import ru.sicampus.bootcamp2026.util.checkers.MeetingChecker;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,17 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<MeetingDTO> getAllMeetings() {
         return meetingRepository.findAll().stream().map(MeetingMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MeetingDTO> getMeetingsByDate(LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.plusDays(1).atStartOfDay();
+
+        return meetingRepository.findByStartTimeBetween(start, end)
+                .stream()
+                .map(MeetingMapper::convertToDto)
+                .toList();
     }
 
     @Override
