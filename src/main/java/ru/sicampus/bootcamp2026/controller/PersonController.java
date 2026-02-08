@@ -10,9 +10,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.sicampus.bootcamp2026.dto.PersonDTO;
 import ru.sicampus.bootcamp2026.dto.PersonRegisterDTO;
+import ru.sicampus.bootcamp2026.entity.Person;
+import ru.sicampus.bootcamp2026.exception.PersonNotFoundException;
+import ru.sicampus.bootcamp2026.repository.PersonRepository;
 import ru.sicampus.bootcamp2026.service.PersonService;
+import ru.sicampus.bootcamp2026.util.PersonMapper;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/person")
@@ -71,3 +77,4 @@ public class PersonController {
         return ResponseEntity.ok(personService.getAllPersonPaginated(pageable));
     }
 }
+

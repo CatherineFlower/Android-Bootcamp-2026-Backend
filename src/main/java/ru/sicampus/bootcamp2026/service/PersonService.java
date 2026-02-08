@@ -4,17 +4,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.sicampus.bootcamp2026.dto.PersonDTO;
 import ru.sicampus.bootcamp2026.dto.PersonRegisterDTO;
-import ru.sicampus.bootcamp2026.entity.Authority;
-import ru.sicampus.bootcamp2026.entity.Department;
-import ru.sicampus.bootcamp2026.entity.Person;
-import ru.sicampus.bootcamp2026.repository.PersonRepository;
 
 import java.util.List;
 
 public interface PersonService {
     List<PersonDTO> getAllPersons();
 
+    Page<PersonDTO> getAllPersonPaginated(Pageable page);
+
     PersonDTO getPersonById(Long id);
+
+    PersonDTO getPersonByUsername(String username);
 
     PersonDTO createPerson(PersonRegisterDTO dto);
 
@@ -22,7 +22,4 @@ public interface PersonService {
 
     void deletePerson(Long id);
 
-    PersonDTO getPersonByUsername(String username);
-
-    Page<PersonDTO> getAllPersonPaginated(Pageable page);
 }
