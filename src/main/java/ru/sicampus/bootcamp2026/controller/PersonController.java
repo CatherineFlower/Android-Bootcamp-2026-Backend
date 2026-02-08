@@ -30,6 +30,11 @@ public class PersonController {
         return ResponseEntity.ok(personService.getPersonById(id));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<PersonDTO> getPersonByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(personService.getPersonByUsername(username));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<PersonDTO> createPerson(@RequestBody PersonRegisterDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(personService.createPerson(dto));
@@ -51,10 +56,10 @@ public class PersonController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<String> getByUserName(String username) {
+    @GetMapping("/check/{username}")
+    public ResponseEntity<String> getByUserName(@PathVariable String username) {
         PersonDTO personDTO = personService.getPersonByUsername(username);
-        return ResponseEntity.ok("User" + personDTO.getUsername() + " is registered");
+        return ResponseEntity.ok("User " + personDTO.getUsername() + " is registered");
     }
 
     @GetMapping("/paginated")

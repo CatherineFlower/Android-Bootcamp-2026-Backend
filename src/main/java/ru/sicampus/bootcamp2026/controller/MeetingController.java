@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.sicampus.bootcamp2026.dto.CreateMeetingRequestDTO;
 import ru.sicampus.bootcamp2026.dto.MeetingDTO;
+import ru.sicampus.bootcamp2026.dto.PersonDTO;
 import ru.sicampus.bootcamp2026.service.MeetingService;
 
 import java.util.List;
@@ -14,6 +15,11 @@ import java.util.List;
 public class MeetingController {
 
     private final MeetingService meetingService;
+
+    @GetMapping
+    public List<MeetingDTO> getAllMeetings() {
+        return meetingService.getAllMeetings();
+    }
 
     @PostMapping
     public MeetingDTO createMeeting(@RequestBody CreateMeetingRequestDTO request) {

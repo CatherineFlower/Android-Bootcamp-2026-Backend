@@ -10,8 +10,6 @@ import ru.sicampus.bootcamp2026.dto.PersonRegisterDTO;
 import ru.sicampus.bootcamp2026.entity.Authority;
 import ru.sicampus.bootcamp2026.entity.Department;
 import ru.sicampus.bootcamp2026.entity.Person;
-import ru.sicampus.bootcamp2026.exception.DepartmentNotFoundException;
-import ru.sicampus.bootcamp2026.exception.PersonAlreadyExistsException;
 import ru.sicampus.bootcamp2026.exception.PersonNotFoundException;
 import ru.sicampus.bootcamp2026.repository.AuthorityRepository;
 import ru.sicampus.bootcamp2026.repository.DepartmentRepository;
@@ -24,7 +22,6 @@ import ru.sicampus.bootcamp2026.util.checkers.UsernameChecker;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +48,7 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> optionalPerson = personRepository.findByUsername(username);
 
         if (optionalPerson.isEmpty()) {
-            throw new PersonNotFoundException("Person with username" + username + "name not found!");
+            throw new PersonNotFoundException("Person with username " + username + " name not found!");
         }
 
         return PersonMapper.convertToDto(optionalPerson.get());

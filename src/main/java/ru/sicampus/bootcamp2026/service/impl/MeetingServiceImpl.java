@@ -10,6 +10,7 @@ import ru.sicampus.bootcamp2026.repository.MeetingRepository;
 import ru.sicampus.bootcamp2026.repository.PersonRepository;
 import ru.sicampus.bootcamp2026.service.MeetingService;
 import ru.sicampus.bootcamp2026.util.MeetingMapper;
+import ru.sicampus.bootcamp2026.util.PersonMapper;
 import ru.sicampus.bootcamp2026.util.TimeValidator;
 import ru.sicampus.bootcamp2026.util.checkers.IdChecker;
 import ru.sicampus.bootcamp2026.util.checkers.MeetingChecker;
@@ -24,6 +25,11 @@ public class MeetingServiceImpl implements MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final PersonRepository personRepository;
+
+    @Override
+    public List<MeetingDTO> getAllMeetings() {
+        return meetingRepository.findAll().stream().map(MeetingMapper::convertToDto).collect(Collectors.toList());
+    }
 
     @Override
     public MeetingDTO createMeeting(CreateMeetingRequestDTO request) {

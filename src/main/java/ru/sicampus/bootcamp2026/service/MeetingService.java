@@ -6,6 +6,8 @@ import ru.sicampus.bootcamp2026.dto.MeetingDTO;
 import java.util.List;
 
 public interface MeetingService {
+    List<MeetingDTO> getAllMeetings();
+
     MeetingDTO createMeeting(CreateMeetingRequestDTO request);
 
     MeetingDTO getMeeting(Long id);

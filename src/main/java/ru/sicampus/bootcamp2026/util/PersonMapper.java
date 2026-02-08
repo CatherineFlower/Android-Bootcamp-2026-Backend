@@ -9,6 +9,7 @@ import ru.sicampus.bootcamp2026.entity.Person;
 import ru.sicampus.bootcamp2026.exception.PersonNotFoundException;
 import ru.sicampus.bootcamp2026.repository.PersonRepository;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @UtilityClass
@@ -37,6 +38,7 @@ public class PersonMapper {
         person.setDepartment(department);
         person.setPassword(password);
         person.setAuthorities(Set.of(authority));
+        person.setCreatedAt(LocalDateTime.now());
         return person;
     }
     public Person convertToEntity(
@@ -51,6 +53,7 @@ public class PersonMapper {
         person.setEmail(dto.getEmail());
         person.setPhotoUrl(dto.getPhotoUrl());
         person.setDepartment(department);
+        person.setCreatedAt(LocalDateTime.now());
         return person;
     }
 }
